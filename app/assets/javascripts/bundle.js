@@ -170,7 +170,9 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _store_store__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./store/store */ "./frontend/store/store.js");
 /* harmony import */ var _components_root__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ./components/root */ "./frontend/components/root.jsx");
 /* harmony import */ var _actions_session_actions__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ./actions/session_actions */ "./frontend/actions/session_actions.js");
+/* harmony import */ var _util_bench_api_util__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ./util/bench_api_util */ "./frontend/util/bench_api_util.js");
 function _defineProperty(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
+
 
 
 
@@ -195,6 +197,10 @@ document.addEventListener('DOMContentLoaded', function () {
     store = Object(_store_store__WEBPACK_IMPORTED_MODULE_2__["default"])();
   }
 
+  window.fetchBenches = _util_bench_api_util__WEBPACK_IMPORTED_MODULE_5__["fetchBenches"];
+  window.newBench = _util_bench_api_util__WEBPACK_IMPORTED_MODULE_5__["newBench"];
+  window.getState = store.getState;
+  window.dispatch = store.dispatch;
   var root = document.getElementById('root');
   react_dom__WEBPACK_IMPORTED_MODULE_1___default.a.render(react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_components_root__WEBPACK_IMPORTED_MODULE_3__["default"], {
     store: store
@@ -577,7 +583,8 @@ __webpack_require__.r(__webpack_exports__);
 
 
 var entitiesReducer = Object(redux__WEBPACK_IMPORTED_MODULE_0__["combineReducers"])({
-  users: _users_reducer__WEBPACK_IMPORTED_MODULE_1__["default"]
+  users: _users_reducer__WEBPACK_IMPORTED_MODULE_1__["default"] // benches: benchesReducer
+
 });
 /* harmony default export */ __webpack_exports__["default"] = (entitiesReducer);
 
@@ -763,6 +770,41 @@ var configureStore = function configureStore() {
 };
 
 /* harmony default export */ __webpack_exports__["default"] = (configureStore);
+
+/***/ }),
+
+/***/ "./frontend/util/bench_api_util.js":
+/*!*****************************************!*\
+  !*** ./frontend/util/bench_api_util.js ***!
+  \*****************************************/
+/*! exports provided: fetchBenches, newBench */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "fetchBenches", function() { return fetchBenches; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "newBench", function() { return newBench; });
+var fetchBenches = function fetchBenches(benches) {
+  return $.ajax({
+    url: '/api/benches',
+    method: 'GET',
+    data: {
+      benches: benches
+    },
+    error: function error(err) {
+      return console.log(err);
+    }
+  });
+};
+var newBench = function newBench(bench) {
+  return $.ajax({
+    url: '/api/benches',
+    method: 'POST',
+    data: {
+      bench: bench
+    }
+  });
+};
 
 /***/ }),
 
