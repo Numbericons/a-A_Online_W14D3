@@ -1,7 +1,5 @@
-import * as Util from '../util/bench_api_util';
-
 export const RECEIVE_BENCHES = "RECEIVE_BENCHES";
-// export const FETCH_BENCHES = "FETCH_BENCHES";
+import * as Util from '../util/bench_api_util';
 
 export const receiveBenches = (benches) => ({
     type: RECEIVE_BENCHES,
