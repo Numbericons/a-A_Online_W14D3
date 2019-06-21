@@ -15,7 +15,10 @@ class BenchMap extends React.Component {
         this.map = new google.maps.Map(this.mapNode, mapOptions);
         // this.map = new google.maps.Map(mapDOMNode, mapOptions);
         this.MarkerManager = new MarkerManager(this.map);
-        
+
+        //event listener for when map is no longer moving
+        //method from map to get bounds of perimeter
+        //bounds into ajax call when invoking fetchBenches
     }
 
     componentDidUpdate() {

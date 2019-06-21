@@ -1,6 +1,8 @@
 class Api::BenchesController < ApplicationController
     def index
-        @benches = Bench.all
+        # @benches = Bench.all
+        debugger
+        @benches = Bench.in_bounds(params[:filters])
         render :index
     end
 
@@ -17,3 +19,8 @@ class Api::BenchesController < ApplicationController
         params.require(:bench).permit(:description, :lat, :lng)
     end
 end
+
+# {
+#     "northEast": {"lat":37.80971, "lng":-122.39208},
+#     "southWest": {"lat":37.74187, "lng":-122.47791}
+#   }

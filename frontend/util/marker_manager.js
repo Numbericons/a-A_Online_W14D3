@@ -31,7 +31,7 @@ export default class MarkerManager {
         const marker = new google.maps.Marker({
             position: myLatLng,
             map: this.map,
-            title: "Hello world" //bench.description
+            title: bench.description
         });
 
         marker.setMap(this.map);

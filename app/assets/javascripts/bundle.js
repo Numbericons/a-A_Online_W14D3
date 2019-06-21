@@ -200,15 +200,15 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var react_dom__WEBPACK_IMPORTED_MODULE_1___default = /*#__PURE__*/__webpack_require__.n(react_dom__WEBPACK_IMPORTED_MODULE_1__);
 /* harmony import */ var _store_store__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./store/store */ "./frontend/store/store.js");
 /* harmony import */ var _components_root__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ./components/root */ "./frontend/components/root.jsx");
-/* harmony import */ var _actions_bench_actions__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ./actions/bench_actions */ "./frontend/actions/bench_actions.js");
+/* harmony import */ var _util_bench_api_util__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ./util/bench_api_util */ "./frontend/util/bench_api_util.js");
 function _defineProperty(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
 
 
 
 
  // import { login, signup } from './actions/session_actions';
-// import { fetchBenches } from './util/bench_api_util';
 
+ // import { fetchBenches } from './actions/bench_actions';
 
 document.addEventListener('DOMContentLoaded', function () {
   var store;
@@ -228,7 +228,7 @@ document.addEventListener('DOMContentLoaded', function () {
     store = Object(_store_store__WEBPACK_IMPORTED_MODULE_2__["default"])();
   }
 
-  window.fetchBenches = _actions_bench_actions__WEBPACK_IMPORTED_MODULE_4__["fetchBenches"];
+  window.fetchBenches = _util_bench_api_util__WEBPACK_IMPORTED_MODULE_4__["fetchBenches"];
   window.getState = store.getState;
   window.dispatch = store.dispatch;
   var root = document.getElementById('root');
@@ -528,8 +528,7 @@ function (_React$Component) {
 
   _createClass(BenchIndex, [{
     key: "componentDidMount",
-    value: function componentDidMount() {
-      this.props.fetchBenches();
+    value: function componentDidMount() {// this.props.fetchBenches();
     }
   }, {
     key: "render",
@@ -631,7 +630,9 @@ function (_React$Component) {
       };
       this.map = new google.maps.Map(this.mapNode, mapOptions); // this.map = new google.maps.Map(mapDOMNode, mapOptions);
 
-      this.MarkerManager = new _util_marker_manager__WEBPACK_IMPORTED_MODULE_1__["default"](this.map);
+      this.MarkerManager = new _util_marker_manager__WEBPACK_IMPORTED_MODULE_1__["default"](this.map); //event listener for when map is no longer moving
+      //method from map to get bounds of perimeter
+      //bounds into ajax call when invoking fetchBenches
     }
   }, {
     key: "componentDidUpdate",
@@ -1108,10 +1109,14 @@ var configureStore = function configureStore() {
 __webpack_require__.r(__webpack_exports__);
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "fetchBenches", function() { return fetchBenches; });
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "newBench", function() { return newBench; });
-var fetchBenches = function fetchBenches() {
+var fetchBenches = function fetchBenches(filters) {
+  debugger;
   return $.ajax({
     url: '/api/benches',
     method: 'GET',
+    data: {
+      filters: filters
+    },
     error: function error(err) {
       return console.log(err);
     }
@@ -1184,8 +1189,7 @@ function () {
       var marker = new google.maps.Marker({
         position: myLatLng,
         map: this.map,
-        title: "Hello world" //bench.description
-
+        title: bench.description
       });
       marker.setMap(this.map);
     }
